@@ -117,9 +117,9 @@
                         + '</div>'
                     '</div>';
 
-                   /* var infowindow = new google.maps.InfoWindow({
+                   var infowindow = new google.maps.InfoWindow({
                         content: contentString
-                    });*/
+                    });
 
 
                     var marker = new google.maps.Marker({
@@ -130,17 +130,17 @@
                         visible: true,
                         map: map
                     });
-                   /* google.maps.event.addListener(marker, 'click', function () {
+                    google.maps.event.addListener(marker, 'click', function () {
                         infowindow.open(map, marker);
                     });
                     google.maps.event.addListener(map, 'click', function () {
                         infowindow.close();
-                    });*/
-                    var boxText = document.createElement("div");
-                    boxText.style.cssText = "border: 1px solid black; margin-top: 8px; background: yellow; padding: 5px;";
-                    boxText.innerHTML = contentString;
+                    });
+                   // var boxText = document.createElement("div");
+                   // boxText.style.cssText = "border: 1px solid black; margin-top: 8px; background: yellow; padding: 5px;";
+                   // boxText.innerHTML = contentString;
             
-                    var myOptions = {
+                   /* var myOptions = {
                         content: boxText,
                         disableAutoPan: false,
                         maxWidth: 0,
@@ -158,10 +158,10 @@
                         pane: "floatPane",
                         enableEventPropagation: false
             
-                    };
+                    };*/
             
-                    var ib = new InfoBox(myOptions);
-                    ib.open(map, marker);
+                    //var ib = new InfoBox(myOptions);
+                   // ib.open(map, marker);
 
 
                     if (reg.segmento == "Poder Publico") {
