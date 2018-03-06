@@ -13,15 +13,18 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <!-- <div id="divBusca">
-        <img src="~/images/active-search-xxl.png" alt="Buscar..." />
-        <input type="text" id="txtBusca" placeholder="Buscar..." />
-        <button id="btnBusca">Buscar</button>
-    </div>-->
+            <img src="~/images/active-search-xxl.png" alt="Buscar..." />
+            <input type="text" id="txtBusca" placeholder="Buscar..." />
+            <button id="btnBusca">Buscar</button>
+        </div>-->
 
         <div id="googleMap"></div>
         <script>
             var src =
                 "http://www.prefeitura.sp.gov.br/cidade/secretarias/upload/saude/arquivos/infambiental/DistritosAdministrativos.kmz";
+           // var infoWindow;
+           // var map;
+
 
             $(function () {
                 $("#CEP").change(function () {
@@ -77,8 +80,8 @@
                     url: "api/Registrations",
                     success: function (data) {
 
-                        myMap(data);
-                        
+                       myMap(data);
+
                     },
                     error: function () {
                         console.log("danger", "Erro ao cadastrar!");
@@ -86,83 +89,58 @@
                 });
 
             }
+
+            /*
+            * myMap recebe o argumento data da função get logo acima
+            * data contem os dados do banco de dados
+            * A função myMap monta o marcador e a infoWindow de cada marcador
+            **/
+            var map;
+            var infoWindow;
+            var marker
             function myMap(registrations) {
-
                 var mapProp = {
-                    center: { lat: -23.5507233, lng: -46.6348329 }, zoom: 10, draggable: true, mapTypeId: google.maps.MapTypeId.RETRO
+                    center: { lat: -23.5507233, lng: -46.6348329 }, zoom: 10, draggable: true, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
-                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
+                infoWindow = new google.maps.InfoWindow();
+                google.maps.event.addListener(map, 'click', function () {
+                    infoWindow.close();
 
+                });
 
-                //aqui monta o marcador no mapa
+                //aqui monta o marcador
                 for (var i in registrations) {
                     var reg = registrations[i];
 
-                    //reg.telefoneFixo
-                    //reg.address.cep
-                    //reg.address.rua
-
                     let center = { lat: parseFloat(reg.lat), lng: parseFloat(reg.lng) };
 
-                    //let center = { lat: -23.5507233, lng: -46.6348329 };
-                    var contentString = '<div id="content"' +
-                        '<h1 id="firstHeading"><strong>' + reg.segmento + '</strong></h1>' +
-                        '<div id="bodyContent">' +
-                        '<p><b>' + reg.nomeInstituicao + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.telefoneFixo + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.email + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.site + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.profileFacebook + '</b></p>' + '<br/>'
-                        + '</div>'
-                    '</div>';
-
-                   var infowindow = new google.maps.InfoWindow({
-                        content: contentString
-                    });
-
-
-                    var marker = new google.maps.Marker({
+                    marker = new google.maps.Marker({
                         position: center,
                         draggable: false,
                         animation: google.maps.Animation.DROP,
                         title: reg.nomeInstituicao,
                         visible: true,
                         map: map
-                    });
-                    google.maps.event.addListener(marker, 'click', function () {
-                        infowindow.open(map, marker);
-                    });
-                    google.maps.event.addListener(map, 'click', function () {
-                        infowindow.close();
-                    });
-                   // var boxText = document.createElement("div");
-                   // boxText.style.cssText = "border: 1px solid black; margin-top: 8px; background: yellow; padding: 5px;";
-                   // boxText.innerHTML = contentString;
-            
-                   /* var myOptions = {
-                        content: boxText,
-                        disableAutoPan: false,
-                        maxWidth: 0,
-                        pixelOffset: new google.maps.Size(-140, 0),
-                        zIndex: null,
-                        boxStyle: {
-                            background: "url('tipbox.gif') no-repet",
-                            opacity: 0.75,
-                            width: "280px"
-                        },
-                        closeBoxMargin: "10px 2px 2px 2px",
-                        closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
-                        infoBoxClearance: new google.maps.Size(1, 1),
-                        isHidden: false,
-                        pane: "floatPane",
-                        enableEventPropagation: false
-            
-                    };*/
-            
-                    //var ib = new InfoBox(myOptions);
-                   // ib.open(map, marker);
 
+                    });
+
+                    google.maps.event.addListener(marker, 'click', function () { 
+                        var contentString = '<div id="content"' +
+                            '<h1 id="firstHeading"><strong>' + reg.segmento + '</strong></h1>' +
+                            '<div id="bodyContent">' +
+                            '<p><b>' + reg.nomeInstituicao + '</b></p>' + '<br/>'
+                            + '<p><b>' + reg.telefoneFixo + '</b></p>' + '<br/>'
+                            + '<p><b>' + reg.email + '</b></p>' + '<br/>'
+                            + '<p><b>' + reg.site + '</b></p>' + '<br/>'
+                            + '<p><b>' + reg.profileFacebook + '</b></p>' + '<br/>'
+                            + '</div>'
+                        '</div>';
+                        infoWindow.setContent(contentString);
+                        infoWindow.open(map, marker);
+
+                    });
 
                     if (reg.segmento == "Poder Publico") {
                         marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
@@ -186,15 +164,9 @@
                     } else if (reg.segmento == "Movimentos") {
                         marker.setIcon('https://maps.google.com/mapfiles/ms/icons/orange-dot.png');
 
-
                     }
 
-
-                    marker.setMap(map);
-
                 }
-
-
                 var kmlLayer = new google.maps.KmlLayer(src, {
                     suppressInfoWindows: true,
                     preserveViewport: false,
@@ -207,20 +179,20 @@
                     //testimonial.innerHTML = content;
 
                 });
-
-
-
             }
 
-           
-           
-           
-            
-            
-           
-        </script>
+          
+
+
+
+
+
+
+
+
+</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgpps7pi5e3otS0Z3HK4e37CDFvLLKGTc&callback=get"></script>
-        <script src="~/js/infobox.js"></script>
+        
     </fieldset>
 </div>
 <div id="sidenav">
