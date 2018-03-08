@@ -186,7 +186,15 @@ namespace smul.mapa.final.core.Controllers
                     x.NomeRepresentante,
                     x.Segmento,
                     x.Tematica,
-                    x.Email
+                    x.Email,
+                    x.Site,
+                    x.PrefeituraRegional,
+                    x.ProfileFacebook,
+                    x.CEP,
+                    x.Numero,
+                    x.Registro,
+                    x.Rua,
+                    x.TempoDeAtucao
                 });
                 //adiciona uma nova planilha a pasta de trabalho vazia
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Atores_Urbanos");
@@ -197,6 +205,16 @@ namespace smul.mapa.final.core.Controllers
                 worksheet.Cells[1, 4].Value = "Telefone Celular";
                 worksheet.Cells[1, 5].Value = "Nome do Representante";
                 worksheet.Cells[1, 6].Value = "E-mail";
+                worksheet.Cells[1, 7].Value = "Site";
+                worksheet.Cells[1, 8].Value = "Prefeitura Regional";
+                worksheet.Cells[1, 9].Value = "Perfil Facebook";
+                worksheet.Cells[1, 10].Value = "CEP";
+                worksheet.Cells[1, 11].Value = "Numero";
+                worksheet.Cells[1, 12].Value = "Rua";
+                worksheet.Cells[1, 13].Value = "Registro";
+                worksheet.Cells[1, 14].Value = "Tempo de Atuação";
+                worksheet.Cells[1, 15].Value = "Segmento";
+                worksheet.Cells[1, 16].Value = "Tematica";
                 var i = 2;
                 foreach (var item in resgistrations)
                 {
@@ -208,6 +226,16 @@ namespace smul.mapa.final.core.Controllers
                     worksheet.Cells["D" + i].Value = item.TelefoneCelular;
                     worksheet.Cells["E" + i].Value = item.NomeRepresentante;
                     worksheet.Cells["F" + i].Value = item.Email;
+                    worksheet.Cells["G" + i].Value = item.Site;
+                    worksheet.Cells["H" + i].Value = item.PrefeituraRegional;
+                    worksheet.Cells["I" + i].Value = item.ProfileFacebook;
+                    worksheet.Cells["J" + i].Value = item.CEP;
+                    worksheet.Cells["K" + i].Value = item.Numero;
+                    worksheet.Cells["L" + i].Value = item.Rua;
+                    worksheet.Cells["M" + i].Value = item.Registro;
+                    worksheet.Cells["N" + i].Value = item.TempoDeAtucao;
+                    worksheet.Cells["O" + i].Value = item.Segmento;
+                    worksheet.Cells["P" + i].Value = item.Tematica;
                     i++;
                 }
 

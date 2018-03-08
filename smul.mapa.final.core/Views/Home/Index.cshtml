@@ -20,8 +20,8 @@
 
         <div id="googleMap"></div>
         <script>
-           
-         
+
+
 
 
             $(function () {
@@ -78,7 +78,7 @@
                     url: "api/Registrations",
                     success: function (data) {
 
-                       myMap(data);
+                        myMap(data);
 
                     },
                     error: function () {
@@ -96,7 +96,7 @@
             var map;
             var infoWindow;
             function myMap(registrations) {
-                var src =
+                let src =
                     "http://www.prefeitura.sp.gov.br/cidade/secretarias/upload/saude/arquivos/infambiental/DistritosAdministrativos.kmz";
                 var mapProp = {
                     center: { lat: -23.5507233, lng: -46.6348329 }, zoom: 10, draggable: true, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -111,6 +111,7 @@
 
 
                 let contentString = [];
+
                 //aqui monta o marcador
                 for (var i in registrations) {
                     var reg = registrations[i];
@@ -122,42 +123,38 @@
                         draggable: false,
                         animation: google.maps.Animation.DROP,
                         title: reg.nomeInstituicao,
+                        segmento: reg.segmento,
+                        telFixo: reg.telefoneFixo,
+                        email: reg.email,
+                        site: reg.site,
+                        facebook: reg.profileFacebook,
                         visible: true,
                         map: map
                     });
-                    /*var contentString = '<div id="content"' +
-                        '<h1 id="firstHeading"><strong>' + reg.segmento + '</strong></h1>' +
-                        '<div id="bodyContent">' +
-                        '<p><b>' + reg.nomeInstituicao + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.telefoneFixo + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.email + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.site + '</b></p>' + '<br/>'
-                        + '<p><b>' + reg.profileFacebook + '</b></p>' + '<br/>'
-                        + '</div>'
-                    '</div>';
-                    marker.addListener('click', function () {
-                        infoWindow.setContent(contentString);
-                        infowindow.open(map, marker);
-                    });*/
-                   
+
+
                     google.maps.event.addListener(marker, 'click', function () {
-                        contentString[i] = 
+                        contentString[i] =
                             '<div id="content"' +
-                            '<h1 id="firstHeading"><strong>' + reg.segmento + '</strong></h1>' +
-                            '<div id="bodyContent">' +
-                        '<p><b>' + marker.title + '</b></p>' + '<br/>'
-                            + '<p><b>' + reg.telefoneFixo + '</b></p>' + '<br/>'
-                            + '<p><b>' + reg.email + '</b></p>' + '<br/>'
-                            + '<p><b>' + reg.site + '</b></p>' + '<br/>'
-                            + '<p><b>' + reg.profileFacebook + '</b></p>' + '<br/>'
+                            '<h1 id="firstHeading"><strong>' + marker.segmento + '</strong></h1>' +
+                            '<hr>' +
+                            '<div id="bodyContent">'
+                            + '<p>' + marker.title + '</p>' + '<br/>'
+                            + '<p>' + marker.telFixo + '</p>' + '<br/>'
+                            + '<p>' + marker.email + '</p>' + '<br/>'
+                            + '<p><a>' + marker.site + '</a></p>' + '<br/>'
+                            + '<p><a>' + marker.facebook + '</a></p>' + '<br/>'
+
                             + '</div>'
                         '</div>';
+
                         infoWindow.setContent(contentString[i]);
                         infoWindow.open(map, marker);
-                        console.log(marker.title);
+
+
 
                     });
-
+                    console.log();
 
                     if (reg.segmento == "Poder Publico") {
                         marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
@@ -200,7 +197,6 @@
                 });
             }
 
-          
 
 
 
@@ -209,9 +205,10 @@
 
 
 
-</script>
+
+        </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgpps7pi5e3otS0Z3HK4e37CDFvLLKGTc&callback=get"></script>
-        
+
     </fieldset>
 </div>
 <div id="sidenav">
