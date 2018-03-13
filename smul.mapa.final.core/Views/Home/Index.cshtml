@@ -21,7 +21,8 @@
         <div id="googleMap"></div>
         <script>
 
-
+            var src =
+                "http://www.prefeitura.sp.gov.br/cidade/secretarias/upload/saude/arquivos/infambiental/DistritosAdministrativos.kmz";
 
 
             $(function () {
@@ -96,8 +97,7 @@
             var map;
             var infoWindow;
             function myMap(registrations) {
-                let src =
-                    "http://www.prefeitura.sp.gov.br/cidade/secretarias/upload/saude/arquivos/infambiental/DistritosAdministrativos.kmz";
+                
                 var mapProp = {
                     center: { lat: -23.5507233, lng: -46.6348329 }, zoom: 10, draggable: true, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
@@ -154,7 +154,7 @@
 
 
                     });
-                    console.log();
+                    
 
                     if (reg.segmento == "Poder Publico") {
                         marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
@@ -182,17 +182,17 @@
 
                 }
 
-
-                var kmlLayer = new google.maps.KmlLayer(src, {
+                console.log(src);
+                let kmlLayer = new google.maps.KmlLayer(src, {
                     suppressInfoWindows: true,
-                    preserveViewport: false,
+                    preserveViewport: true,
                     map: map
 
                 });
                 kmlLayer.addListener('click', function (event) {
                     var content = event.featureData.infoWindowHtml;
                     var testimonial = document.getElementById('capture');
-                    //testimonial.innerHTML = content;
+                    testimonial.innerHTML = content;
 
                 });
             }
